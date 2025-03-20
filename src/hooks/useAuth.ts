@@ -3,8 +3,15 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+type User = {
+  id: string;
+  email: string;
+  name?: string;
+  // Add other user properties if needed
+};
+
 export const useAuth = () => {
-  const [user, setUser] = useState<any | null>(null); // Store user data
+  const [user, setUser] = useState<User | null>(null); // ✅ Specify type
   const router = useRouter();
 
   useEffect(() => {
@@ -12,10 +19,10 @@ export const useAuth = () => {
       try {
         const response = await fetch("/api/auth/me"); // API to get user details
         if (!response.ok) throw new Error("Not authenticated");
-        const data = await response.json();
+        const data: User = await response.json();
         setUser(data);
-      } catch (error) {
-        setUser(null);
+      } catch {
+        setUser(null); // ✅ Removed unused `error`
       }
     };
 
@@ -27,8 +34,8 @@ export const useAuth = () => {
       await fetch("/api/auth/logout", { method: "POST" }); // Invalidate session
       setUser(null);
       router.push("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
+    } catch (err) {
+      console.error("Logout failed:", err); // ✅ Keep error here for debugging
     }
   };
 

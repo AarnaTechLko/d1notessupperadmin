@@ -53,7 +53,8 @@ export default function SignInForm() {
           window.location.href = "/profile"; // Redirect to profile page
         }, 2000);
       }
-    } catch (error) {
+    } catch (err) {
+      console.error("Signin error:", err);
       setError("Network error, please try again.");
     }
   };
@@ -135,7 +136,7 @@ export default function SignInForm() {
 
           <div className="mt-5">
             <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-              Don&apos;t have an account? {""}
+              Don&apos;t have an account?{" "}
               <Link href="/signup" className="text-brand-500 hover:text-brand-600 dark:text-brand-400">
                 Sign Up
               </Link>

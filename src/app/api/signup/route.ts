@@ -6,7 +6,11 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+// Ensure JWT_SECRET is defined
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is required but not defined in environment variables.");
+}
 
 export async function POST(req: Request) {
   try {
@@ -22,17 +26,25 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert new user into database
-    const [newUser] = await db.insert(users).values({
-      firstName: fname,
-      lastName: lname,
-      email,
-      password: hashedPassword,
-    }).returning();
+    const insertedUsers = await db.insert(users)
+      .values({
+        firstName: fname,
+        lastName: lname,
+        email,
+        password: hashedPassword,
+      })
+      .returning();
 
-    // Generate JWT
+    if (insertedUsers.length === 0) {
+      return NextResponse.json({ error: "User creation failed" }, { status: 500 });
+    }
+
+    const newUser = insertedUsers[0];
+
+    // Generate JWT (✅ Ensured JWT_SECRET is always defined)
     const token = jwt.sign(
       { id: newUser.id, email: newUser.email },
-      JWT_SECRET,
+      JWT_SECRET as string, // Ensure TypeScript recognizes it as a valid string
       { expiresIn: "1h" }
     );
 
@@ -41,7 +53,8 @@ export async function POST(req: Request) {
       { message: "User registered successfully", user: { id: newUser.id, email: newUser.email } },
       { status: 201 }
     );
-    response.headers.set("Set-Cookie", serialize("token", token, {
+
+    response.headers.append("Set-Cookie", serialize("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -52,7 +65,7 @@ export async function POST(req: Request) {
     return response;
 
   } catch (error) {
-    console.error("Signup error:", error);
+    console.error("❌ Signup error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
