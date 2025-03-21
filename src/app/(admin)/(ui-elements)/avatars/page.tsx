@@ -19,10 +19,10 @@ export default function AvatarPage() {
           {/* Default Avatar (No Status) */}
           <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Avatar src="/images/user/user-01.jpg" size="xsmall" />
-            <Avatar src="/images/user/user-01.jpg" size="small" />
+            <Avatar src="//user/user-01.jpg" size="small" />
             <Avatar src="/images/user/user-01.jpg" size="medium" />
             <Avatar src="/images/user/user-01.jpg" size="large" />
-            <Avatar src="/images/user/user-01.jpg" size="xlarge" />
+            <Avatar src="//user/user-01.jpg" size="xlarge" />
             <Avatar src="/images/user/user-01.jpg" size="xxlarge" />
           </div>
         </ComponentCard>

@@ -6,6 +6,7 @@ import { useSidebar } from "@/context/SidebarContext";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState ,useEffect,useRef} from "react";
+import LL from "@/public/images/logo/LL.png"; 
 
 const AppHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
@@ -85,19 +86,19 @@ const AppHeader: React.FC = () => {
 
           <Link href="/" className="lg:hidden">
             <Image
-              width={154}
+              width={32}
               height={32}
               className="dark:hidden"
-              src="./images/logo/logo.svg"
+              src={LL}
               alt="Logo"
               priority
               unoptimized
             />
             <Image
-              width={154}
+              width={32}
               height={32}
               className="hidden dark:block"
-              src="./images/logo/logo-dark.svg"
+              src={LL}
               alt="Logo"
               priority
               unoptimized
@@ -153,7 +154,7 @@ const AppHeader: React.FC = () => {
 
                 <button className="absolute right-2.5 top-1/2 inline-flex -translate-y-1/2 items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-xs -tracking-[0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-400">
                   <span> ⌘ </span>
-                  <span> K </span>
+                  <span> K </span>g
                 </button>
               </div>
             </form>

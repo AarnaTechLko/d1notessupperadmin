@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState,useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import LL from "@/public/images/logo/LL.png"; 
 
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
@@ -285,22 +286,22 @@ const AppSidebar: React.FC = () => {
             <>
               <Image
                 className="dark:hidden"
-                src="/images/user/user-01.jpg" 
+                src={LL} 
                 alt="Logo123"
-                width={150}
+                width={80}
                 height={40}
               />
               <Image
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src={LL}
                 alt="Logo2"
-                width={150}
+                width={80}
                 height={40}
               />
             </>
           ) : (
             <Image
-              src="/images/logo/logo-icon.svg"
+              src={LL}
               alt="Logo3"
               width={32}
               height={32}
